@@ -3,7 +3,7 @@
 程序运行时传入参数：
 
 ```shell
-sudo ./motor_control_demo config_file serial_port
+sudo ./demo config_file serial_port
 ```
 
 - `config_file`：电机控制指令存储的文件，在此中存储控制电机的7个命令。文件以空格分隔，每一行为：
