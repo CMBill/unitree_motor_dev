@@ -46,15 +46,6 @@ std::vector<std::vector<float>> readCSV(const std::filesystem::path& filepath) {
     return data;
 }
 
-void printData(const std::vector<std::vector<float>>& data) {
-    for (const auto& row : data) {
-        for (const auto& val : row) {
-            std::cout << val << " ";
-        }
-        std::cout << std::endl;
-    }
-}
-
 float sendCmd(const std::vector<float>& cmds, const std::string& serial_port) {
     SerialPort  serial(serial_port);
     MotorCmd    cmd;
