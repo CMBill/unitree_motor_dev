@@ -62,47 +62,38 @@ float sendCmd(const std::vector<float>& cmds, const std::string& serial_port) {
     cmd.tau = cmds[6];
     serial.sendRecv(&cmd, &data);
 
-    std::cout << cmds[0] << "\t";
-    std::cout << cmds[1] << "\t";
-    std::cout << cmds[2] << "\t";
-    std::cout << cmds[3] << "\t";
-    std::cout << cmds[4] << "\t";
-    std::cout << cmds[5] << "\t";
-    std::cout << cmds[6] << "\t";
+    for(int i = 0; i <= 6; i++) {
+        std::cout << cmds[i] << " ";
+    }
+
     std::cout << std::endl;
 
-    // std::cout << "\x1b[2G\x1b[A"; // 从第二行开始覆盖输出
-    // std::cout << data.q << "\t";
-    // std::cout << data.temp << "\t";
-    // std::cout << data.dq << "\t";
-    // std::cout << data.merror << "\t";
-    // std::cout << std::endl;
+    std::cout << data.q << " "
+              << data.temp << " "
+              << data.dq << " "
+              << data.merror << " " << std::endl;
 
     return cmds[7];
 }
 
 int main(int argc, char* argv[]) {
     std::string serial_port = "/dev/ttyUSB0";
-    std::filesystem::path filepath = argv[1]; // CSV文件名
-    std::vector<std::vector<float>> data = readCSV(filepath); // 读取
+    std::filesystem::path filepath; // CSV文件名
+    std::vector<std::vector<float>> data; // 读取
 
     switch (argc) {
         case 1: std::cout << "Please input the parameters." << std::endl; return -1;
-        case 2: std::cout << "No Serial Port input, using the default /dev/ttyUSB0." << std::endl; break;
+        case 2:
+            std::cout << "No Serial Port input, using the default /dev/ttyUSB0." << std::endl;
+            filepath = argv[1];
+            break;
         default:
             serial_port = argv[2];
+            filepath = argv[1];
             std::cout << "Starting with the Serial Port: " << serial_port << std::endl;
     }
 
-    // 第一行
-    std::cout <<  "motor.q\tmotor.temp\tmotor.W\tmotor.merror\t" << std::endl;
-    // 第二行
-    std::cout << "Waiting..." << std::endl;
-    // 第三行
-    std::cout << std::endl;
-    //第四行
-    std::cout << "id\tmode\tq\tdq\tkp\tkd\ttau\tcontinue_time\t" << std::endl;
-
+    data = readCSV(filepath);
     for (const auto& cmds : data) {
         float continue_time = sendCmd(cmds, serial_port);
         // std::cout << serial_port << std::endl;
