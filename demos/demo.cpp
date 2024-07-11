@@ -59,7 +59,7 @@ float sendCmd(const std::vector<float>& cmds, const std::string& serial_port) {
     cmd.dq = cmds[3];
     cmd.kp = cmds[4];
     cmd.kd = cmds[5];
-    cmd.kd = cmds[6];
+    cmd.tau = cmds[6];
     serial.sendRecv(&cmd, &data);
 
     std::cout << cmds[0] << "\t";
@@ -71,12 +71,12 @@ float sendCmd(const std::vector<float>& cmds, const std::string& serial_port) {
     std::cout << cmds[6] << "\t";
     std::cout << std::endl;
 
-    std::cout << "\x1b[2G\x1b[A"; // 从第二行开始覆盖输出
-    std::cout << data.q << "\t";
-    std::cout << data.temp << "\t";
-    std::cout << data.dq << "\t";
-    std::cout << data.merror << "\t";
-    std::cout << std::endl;
+    // std::cout << "\x1b[2G\x1b[A"; // 从第二行开始覆盖输出
+    // std::cout << data.q << "\t";
+    // std::cout << data.temp << "\t";
+    // std::cout << data.dq << "\t";
+    // std::cout << data.merror << "\t";
+    // std::cout << std::endl;
 
     return cmds[7];
 }
@@ -105,6 +105,7 @@ int main(int argc, char* argv[]) {
 
     for (const auto& cmds : data) {
         float continue_time = sendCmd(cmds, serial_port);
+        // std::cout << serial_port << std::endl;
         std::this_thread::sleep_for(std::chrono::milliseconds(static_cast<int>(continue_time)));
     }
 
