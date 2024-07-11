@@ -1,5 +1,7 @@
 # README.md
 
+主要源码为 `demos/demo.cpp`，默认编译为`demo`文件。
+
 程序运行时传入参数：
 
 ```shell
