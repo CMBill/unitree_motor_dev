@@ -67,12 +67,18 @@ float sendCmd(const std::vector<float>& cmds, const std::string& serial_port) {
         std::cout << cmds[i] << " ";
     }
 
-    std::cout << std::endl;
+    std::cout << "id" << cmds[0]
+              << "  mode" << cmds[1]
+              << "  期望位置qdes" << cmds[2]
+              << "  期望转速dqdes" << cmds[3]
+              << "  kp" << cmds[4]
+              << "  kd" << cmds[5]
+              << "  期望前馈扭矩tau" << cmds[6] << std::endl;
 
-    std::cout << data.q << " "
-              << data.temp << " "
-              << data.dq << " "
-              << data.merror << " " << std::endl << std::endl;
+    std::cout << "motor.q" << data.q
+              << "  motor.temp" << data.temp
+              << "  motor.W" << data.dq
+              << "  motor.merror" << data.merror << std::endl << std::endl;
 
     return cmds[7];
 }
@@ -85,7 +91,7 @@ int main(int argc, char* argv[]) {
     switch (argc) {
         case 1: std::cout << "Please input the parameters." << std::endl; return -1;
         case 2:
-            std::cout << "No Serial Port input, using the default /dev/ttyUSB0." << std::endl;
+            std::cout << "No Serial Port input, using the default port:" << serial_port << std::endl;
             filepath = argv[1];
             break;
         default:
@@ -97,7 +103,6 @@ int main(int argc, char* argv[]) {
     data = readCSV(filepath);
     for (const auto& cmds : data) {
         float continue_time = sendCmd(cmds, serial_port);
-        // std::cout << serial_port << std::endl;
         std::this_thread::sleep_for(std::chrono::milliseconds(static_cast<int>(continue_time)));
     }
 
