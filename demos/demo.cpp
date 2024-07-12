@@ -14,7 +14,8 @@ std::vector<float> parseLine(const std::string& line) {
     std::istringstream ss(line);
     std::string value;
 
-    while (ss >> value) {
+//    while (ss >> value) {
+    while (std::getline(ss, value, ',')) {
         try {
             float num = std::stof(value);
             values.push_back(num);
@@ -22,7 +23,7 @@ std::vector<float> parseLine(const std::string& line) {
         catch (std::invalid_argument& e) {
             values.push_back(0.0f);
         }
-        ss >> std::ws;
+//        ss >> std::ws;
     }
     values.resize(8);
     return values;
@@ -71,7 +72,7 @@ float sendCmd(const std::vector<float>& cmds, const std::string& serial_port) {
     std::cout << data.q << " "
               << data.temp << " "
               << data.dq << " "
-              << data.merror << " " << std::endl;
+              << data.merror << " " << std::endl << std::endl;
 
     return cmds[7];
 }
