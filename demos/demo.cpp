@@ -14,7 +14,6 @@ std::vector<float> parseLine(const std::string& line) {
     std::istringstream ss(line);
     std::string value;
 
-//    while (ss >> value) {
     while (std::getline(ss, value, ',')) {
         try {
             float num = std::stof(value);
@@ -23,7 +22,6 @@ std::vector<float> parseLine(const std::string& line) {
         catch (std::invalid_argument& e) {
             values.push_back(0.0f);
         }
-//        ss >> std::ws;
     }
     values.resize(8);
     return values;
