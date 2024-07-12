@@ -69,6 +69,10 @@ float sendCmd(const std::vector<float>& cmds, const std::string& serial_port) {
               << "  kd: " << cmds[5]
               << "  期望前馈扭矩tau: " << cmds[6] << std::endl;
 
+    if (cmd.mode == 10) {
+        std::this_thread::sleep_for(std::chrono::seconds(static_cast<int>(5)));
+    }
+
     std::cout << "motor.q: " << data.q
               << "  motor.temp: " << data.temp
               << "  motor.W: " << data.dq
