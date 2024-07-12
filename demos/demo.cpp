@@ -63,22 +63,18 @@ float sendCmd(const std::vector<float>& cmds, const std::string& serial_port) {
     cmd.tau = cmds[6];
     serial.sendRecv(&cmd, &data);
 
-    for(int i = 0; i <= 6; i++) {
-        std::cout << cmds[i] << " ";
-    }
+    std::cout << "id: " << cmds[0]
+              << "  mode: " << cmds[1]
+              << "  期望位置qdes: " << cmds[2]
+              << "  期望转速dqdes: " << cmds[3]
+              << "  kp: " << cmds[4]
+              << "  kd: " << cmds[5]
+              << "  期望前馈扭矩tau: " << cmds[6] << std::endl;
 
-    std::cout << "id" << cmds[0]
-              << "  mode" << cmds[1]
-              << "  期望位置qdes" << cmds[2]
-              << "  期望转速dqdes" << cmds[3]
-              << "  kp" << cmds[4]
-              << "  kd" << cmds[5]
-              << "  期望前馈扭矩tau" << cmds[6] << std::endl;
-
-    std::cout << "motor.q" << data.q
-              << "  motor.temp" << data.temp
-              << "  motor.W" << data.dq
-              << "  motor.merror" << data.merror << std::endl << std::endl;
+    std::cout << "motor.q: " << data.q
+              << "  motor.temp: " << data.temp
+              << "  motor.W: " << data.dq
+              << "  motor.merror: " << data.merror << std::endl << std::endl;
 
     return cmds[7];
 }
